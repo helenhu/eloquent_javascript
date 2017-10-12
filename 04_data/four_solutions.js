@@ -76,7 +76,7 @@ function arrayToList(array) {
 function listToArray(list) {
 	var array = []
 	for (var node=list; node; node = node.rest) {
-		array.push(node["value"]);
+		array.push(node.value);
 	}
 	return array;
 }
@@ -88,9 +88,9 @@ function prepend(element, list) {
 function nth(list, num) {
 	for (var i=0; list != null; i++) {
 		if (i===num) {
-			return list["value"];
+			return list.value;
 		}
-		list = list["rest"];
+		list = list.rest;
 	}
 	return undefined;
 }
