@@ -2,6 +2,8 @@
 require("./code/load")("code/ancestry.js", "code/chapter/05_higher_order.js", "code/intro.js");
 
 // Flattening
+// Given an array of arrays, returns a one-dimensional array
+// of all elements.
 var arrays = [[1, 2, 3], [4, 5], [6]];
 console.log(arrays.reduce(function(a, b) {
 	return a.concat(b);
@@ -19,6 +21,8 @@ ancestry.forEach(function(person) {
   byName[person.name] = person;
 });
 
+// Returns average age difference between children
+// and their mothers.
 var ageDifference = [];
 ancestry.forEach(function(person) {
 	if (byName[person.mother] == undefined) {
@@ -55,6 +59,7 @@ for (century in byCentury) {
 //   21: 94
 
 // Every and Then Some
+// Returns true of every element in array passes test.
 function every(array, test) {
 	for (var i=0; i<array.length; i++) {
 		if (!test(array[i])) {
@@ -64,6 +69,7 @@ function every(array, test) {
 	return true;
 }
 
+// Returns true if some elements in array pass test.
 function some(array, test) {
 	for (var i=0; i<array.length; i++) {
 		if (test(array[i])) {

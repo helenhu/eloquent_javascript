@@ -1,4 +1,7 @@
 // The Sum of a Range
+/* Returns an array of integers in the range start to end.
+	 Optional third argument is set as number to increment/
+	 decrement numbers in the sequence by. */
 function range(start, end) {
 	var step = arguments[2] == undefined ? 1 : arguments[2];
 	res = [];
@@ -20,6 +23,7 @@ function range(start, end) {
 	return res;
 }
 
+// Returns sum of all integers in nums.
 function sum(nums) {
 	var total = 0;
 	for (var i=0; i<nums.length; i++) {
@@ -37,6 +41,7 @@ console.log(sum(range(1, 10)));
 // → 55
 
 // Reversing an Array
+// Returns array, reversed.
 function reverseArray(array) {
 	var res = []
 	for (var i=0; i<array.length; i++) {
@@ -45,6 +50,7 @@ function reverseArray(array) {
 	return res;
 }
 
+// Reverses array in place.
 function reverseArrayInPlace(array) {
 	var start = 0;
 	var end = array.length-1;
@@ -65,6 +71,7 @@ console.log(arrayValue);
 // → [5, 4, 3, 2, 1]
 
 // A List
+// Returns linked list representation of an array of integers.
 function arrayToList(array) {
 	var list = null;
 	for (var i=array.length-1; i>=0; i--) {
@@ -73,6 +80,7 @@ function arrayToList(array) {
 	return list;
 }
 
+// Returns array representation of linked list.
 function listToArray(list) {
 	var array = []
 	for (var node=list; node; node = node.rest) {
@@ -81,10 +89,13 @@ function listToArray(list) {
 	return array;
 }
 
+// Adds element to the head of list.
 function prepend(element, list) {
 	return {value: element, rest: list};
 }
 
+// Inserts the value at place num in list, 
+// returns undefined if place num does not exist.
 function nth(list, num) {
 	for (var i=0; list != null; i++) {
 		if (i===num) {
@@ -105,6 +116,8 @@ console.log(nth(arrayToList([10, 20, 30]), 1));
 // → 20
 
 // Deep Comparison
+// Returns true if values and structure of objects
+// a and b are equal.
 function deepEqual(a, b) {
 	var res = true;
 	if (typeof a == "object" && typeof a != null 
