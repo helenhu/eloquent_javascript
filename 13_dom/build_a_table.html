@@ -1,0 +1,57 @@
+<!doctype html>
+<style>
+  /* Defines a cleaner look for tables */
+  table  { border-collapse: collapse; }
+  td, th { border: 1px solid black; padding: 3px 8px; }
+  th     { text-align: left; }
+</style>
+<body>
+</body>	
+
+<script>
+	var MOUNTAINS = [
+	  {name: "Kilimanjaro", height: 5895, country: "Tanzania"},
+	  {name: "Everest", height: 8848, country: "Nepal"},
+	  {name: "Mount Fuji", height: 3776, country: "Japan"},
+	  {name: "Mont Blanc", height: 4808, country: "Italy/France"},
+	  {name: "Vaalserberg", height: 323, country: "Netherlands"},
+	  {name: "Denali", height: 6168, country: "United States"},
+	  {name: "Popocatepetl", height: 5465, country: "Mexico"}
+	];
+
+	if (typeof module != "undefined" && module.exports)
+	  module.exports = MOUNTAINS;
+
+	// Given an array of objects that all have the same set of properties,
+	// builds up a DOM structure representing a table.
+  function buildTable(data) {
+    var table = document.createElement("table");
+
+    var header = document.createElement("tr");
+
+    var keys = Object.keys(data[0]);
+
+    keys.forEach(function(prop) {
+    	var cell = document.createElement("th");
+    	cell.textContent = prop;
+    	header.appendChild(cell);
+    });
+    table.appendChild(header);
+
+    data.forEach(function(element) {
+    	var row = document.createElement("tr");
+    	keys.forEach(function(prop) {
+    		var cell = document.createElement("td");
+    		cell.textContent = element[prop];
+    		if (typeof element[prop] == 'number') 
+    			cell.style.textAlign = "right";
+    		row.appendChild(cell);
+    	});
+    	table.appendChild(row);
+    });
+
+    return table;
+  }
+
+  document.body.appendChild(buildTable(MOUNTAINS));
+</script>
