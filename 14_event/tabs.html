@@ -1,0 +1,46 @@
+<div id="wrapper">
+  <div data-tabname="one">Tab one</div>
+  <div data-tabname="two">Tab two</div>
+  <div data-tabname="three">Tab three</div>
+</div>
+<script>
+	// Takes a DOM node and creates tabbed interface showing child elements
+	// of that node. It inserts a list of <button> elements at the top of
+	// the node, one for each child element, containing text retrieved from
+	// the data-tabname attribute of the child.
+  function asTabs(node) {
+    var children = node.childNodes;
+    var childDivs = [];
+
+    var allTabs = document.createElement("div");
+    Array.prototype.forEach.call(children, function(child) {
+    	if (child.nodeType == document.ELEMENT_NODE) {
+	    	var button = document.createElement("button");
+	    	button.textContent =  child.getAttribute("data-tabname");
+	    	allTabs.appendChild(button);
+	    	childDivs.push(child);
+	    }
+    });
+    node.insertBefore(allTabs, node.firstChild);
+
+    Array.prototype.forEach.call(allTabs.children, function(tab, i) {
+    	tab.addEventListener("click", function() { selectTab(i); });
+    });
+
+    function selectTab(n) {
+    	childDivs.forEach(function(child, i) {
+    		if (i == n) {
+    			child.style.display = "";
+    			allTabs.children[i].style.background = "blue";
+    		}
+    		else {
+    			child.style.display = "none";
+    			allTabs.children[i].style.background = "";
+    		}
+    	});
+    }
+
+    selectTab(0);
+  }
+  asTabs(document.querySelector("#wrapper"));
+</script>

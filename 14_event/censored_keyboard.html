@@ -1,0 +1,11 @@
+<input type="text">
+<script>
+  var field = document.querySelector("input");
+  
+  // Program a text field that the letters Q, W, and X cannot
+  // be typed into (similar to 1928-2013 Turkish law)
+  field.addEventListener("keydown", function(event) {
+  	if (event.keyCode == 81 || event.keyCode == 87 || event.keyCode == 88)
+  		event.preventDefault();
+  });
+</script>
