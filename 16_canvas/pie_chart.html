@@ -1,0 +1,42 @@
+<canvas width="600" height="300"></canvas>
+<script>
+  var results = [
+    {name: "Satisfied", count: 1043, color: "lightblue"},
+    {name: "Neutral", count: 563, color: "lightgreen"},
+    {name: "Unsatisfied", count: 510, color: "pink"},
+    {name: "No comment", count: 175, color: "silver"}
+  ];
+
+  var cx = document.querySelector("canvas").getContext("2d");
+  var total = results.reduce(function(sum, choice) {
+    return sum + choice.count;
+  }, 0);
+
+  var currentAngle = -0.5 * Math.PI;
+  var centerX = 300, centerY = 150;
+  // Draws pie chart for data, including labels for each section.
+  results.forEach(function(result) {
+    var sliceAngle = (result.count / total) * 2 * Math.PI;
+    var label = result.name;
+    cx.beginPath();
+    cx.arc(centerX, centerY, 100,
+           currentAngle, currentAngle + sliceAngle);
+    currentAngle += sliceAngle;
+    cx.lineTo(centerX, centerY);
+    cx.fillStyle = result.color;
+    cx.fill();
+    pieChartText(120, centerX, centerY, currentAngle-sliceAngle, currentAngle, label);
+  });
+
+  function pieChartText(radius, centerX, centerY, start, end, text) {
+    cx.fillStyle = "black";
+    cx.font = "16px calibri";
+    var mid = (start + end) / 2;
+    if (mid > Math.PI/2 && mid < 3*Math.PI/2) 
+      cx.textAlign = "right";
+    else
+      cx.textAlign = "left";
+    cx.fillText(text, centerX + radius * Math.cos(mid),
+                centerY + radius * Math.sin(mid));
+  }
+</script>

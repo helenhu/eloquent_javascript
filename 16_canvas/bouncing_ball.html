@@ -1,0 +1,38 @@
+<canvas width="400" height="400"></canvas>
+<script>
+  var cx = document.querySelector("canvas").getContext("2d");
+
+  var lastTime = null;
+  function frame(time) {
+    if (lastTime != null)
+      updateAnimation(Math.min(100, time - lastTime) / 1000);
+    lastTime = time;
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  var speedX = 100, speedY = 60;
+  var radius = 10;
+  var lastX = 50, lastY = 50;
+
+  // Draws a ball bouncing around an empty box at a constant speed.
+  function updateAnimation(step) {
+    cx.clearRect(0, 0, 400, 400);
+    cx.strokeStyle = "gold";
+    cx.lineWidth = 4;
+    cx.strokeRect(5, 5, 350, 350);
+
+    lastX += step * speedX;
+    lastY += step * speedY;
+
+    if (lastX < radius + 7 || lastX > 353 - radius)
+      speedX = -speedX;
+    if (lastY < radius + 7 || lastY > 353 - radius)
+      speedY = -speedY;
+
+    cx.fillStyle = "red";
+    cx.beginPath();
+    cx.arc(lastX, lastY, radius, 0, 7);
+    cx.fill();
+  }
+</script>

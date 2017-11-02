@@ -1,0 +1,83 @@
+<canvas width="600" height="200"></canvas>
+<script>
+  var cx = document.querySelector("canvas").getContext("2d");
+
+  // Draws a trapezoid at position left, top on a canvas.
+  // The trapezoid's dimensions are determined by height, upperBase,
+  // and lowerBase.
+  function trapezoid(left, top, height, upperBase, lowerBase) {
+  	cx.beginPath();
+  	cx.moveTo(left, top+height);
+  	cx.lineTo(left+lowerBase, top+height);
+  	cx.lineTo(left+(upperBase+lowerBase)/2, top);
+  	cx.lineTo(left+(lowerBase-upperBase)/2, top);
+  	cx.closePath();
+  	cx.stroke();
+  }
+
+  // Draws a filled diamond with color. Diamond is centered at left, top,
+  // with the given dimensions.
+  function diamond(left, top, width, height, color) {
+  	cx.save();
+  	cx.translate(left, top);
+  	cx.rotate(Math.PI/4);
+  	cx.fillStyle = color;
+  	cx.fillRect(-width/2, -height/2, width, height);
+  	cx.restore();
+  }
+
+  // Draws a zigzag with n lines with the given length at position left, top.
+  function zigzag(left, top, length, n) {
+    cx.beginPath();
+    cx.moveTo(left,top);
+    for (var i=0; i<n; i++) {
+      if (i%2 == 0) {
+        cx.lineTo(left+length, top+(i+1)*5);
+      }
+      else {
+        cx.lineTo(left, top+(i+1)*5)
+      }
+    }
+    cx.stroke();
+  }
+
+  // Draws a spiral made up of 100 straight line segments centered at 
+  // position left, top.
+  function spiral(left, top) {
+  	cx.save();
+  	cx.translate(left, top);
+    var radius = 0;
+    var angle = 0;
+    cx.beginPath();
+  	for (var i=0; i<100; i++) {
+      radius += 0.5;
+      angle = (angle+0.2)%(2*Math.PI);
+      cx.lineTo(radius * Math.cos(angle), radius * Math.sin(angle));
+  	}
+    cx.stroke();
+  	cx.restore();
+  }
+
+  // Draws a star with the given color centered at left, top.
+  function star(left, top, color) {
+  	cx.save();
+  	cx.translate(left, top);
+  	cx.beginPath();
+  	cx.fillStyle = color;
+  	var angle = 0;
+  	cx.moveTo(50, 0);
+  	for (var i=0; i<8; i++) {
+  		angle += Math.PI/4;
+  		cx.quadraticCurveTo(0, 0, 50*Math.cos(angle), 50*Math.sin(angle));
+  	}
+  	cx.fill();
+  	cx.restore();
+  }
+
+  trapezoid(20, 20, 40, 50, 80);0
+  diamond(150, 50, 50, 50, "red");
+  zigzag(200, 20, 80, 12);
+  spiral(350, 50);
+  star(460, 50, "gold");
+
+</script>
