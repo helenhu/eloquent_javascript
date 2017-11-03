@@ -1,0 +1,21 @@
+<script>
+  // will not work unless called in eloquentjavascript.net sandbox
+  function requestAuthor(accept) {
+    var req = new XMLHttpRequest();
+    req.open("GET", "http://eloquentjavascript.net/author", false);
+    req.setRequestHeader("accept", accept);
+    req.send(null);
+    return req.responseText;
+  }
+
+  var formats = ["text/plain", "text/html", "application/json",
+                 "application/rainbows+unicorns"];
+  formats.forEach(function(format) {
+    try {
+      console.log(format + ":\n", requestAuthor(format), "\n");
+    }
+    catch(e) {
+      console.log("Raised error: " + e);
+    }
+  });
+</script>
