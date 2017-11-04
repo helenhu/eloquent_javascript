@@ -1,0 +1,54 @@
+<input type="text" id="field">
+<div id="suggestions" style="cursor: pointer"></div>
+
+<script>
+  // Builds up an array with global variable names, like
+  // 'alert', 'document', and 'scrollTo'
+  var terms = [];
+  for (var name in window)
+    terms.push(name);
+
+  // Extends text field so that when user types, a list of suggested
+  // values is shown below the field.
+
+  var field = document.querySelector("#field");
+  var suggestions = document.querySelector("#suggestions");
+
+  function isInside(node, target) {
+  	for (; node != null; node = node.parentNode)
+  		if (node == target) return true;
+  }
+
+  function addHoverEvent(node) {
+  	node.addEventListener("mouseover", function(event) {
+  		if (!isInside(event.relatedTarget, node))
+  			node.style.background = "yellow"
+  	});
+  	node.addEventListener("mouseout", function(event) {
+  		if (!isInside(event.relatedTarget, node))
+  			node.style.background = "";
+  	});
+  }
+
+  function suggest() {
+  	var text = field.value;
+  	suggestions.textContent = '';
+  	if (text != '') {
+  		terms.forEach(function(element) {
+  			if (element.startsWith(text)) {
+  				var child = document.createElement("div");
+  				child.textContent = element;
+  				child.style.display = "block";
+  				addHoverEvent(child);
+  				child.addEventListener("click", function(event) {
+  					field.value = element;
+  					suggestions.textContent = '';
+  				});
+  				suggestions.appendChild(child);
+  			}
+  		});
+  	}
+  }
+
+  field.addEventListener("input", suggest);
+</script>

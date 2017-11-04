@@ -1,0 +1,80 @@
+<div id="grid"></div>
+<button id="next">Next generation</button>
+
+<script>
+  // Conway's Game of Life - simple simulation that creates artificial "life"
+  // on a grid, each cell of which is either live or not. Each generation (turn),
+  // the following rules are applied:
+  // 		- Any live cell with few than two or more than three live neighbors dies
+  //		- Any live cell with 2-3 live neighbrs lives on to next generation
+  //		- Any dead cell with exactly 3 live neighbors becomes a live cell
+
+	var grid = document.querySelector("#grid");
+	var nextGenButton = document.querySelector("#next");
+	var cells = []
+	var height = 30;
+	var width = 20;
+
+	// Create initial grid of checkboxes
+	for (var i = 0; i < height; i++) {
+		for (var j = 0; j < width; j++) {
+			var checkbox = document.createElement("input");
+			checkbox.type = "checkbox";
+			if (Math.random() < 0.4) {
+				checkbox.checked = true;
+			}
+			grid.appendChild(checkbox);
+			cells.push(checkbox.checked);
+		}
+		grid.appendChild(document.createElement("br"));
+	}
+
+	// Counts the number of live neighbors for a checkbox at x, y.
+	function countLiveNeighbors(x, y) {
+		var liveNeighbors = 0;
+		for (var i = x-1; i <= x+1; i++) {
+			if (i < 0 || i >= width)
+				continue;
+			for (var j = y-1; j <= y+1; j++) {
+				if (j < 0 || j >= height || (i==x && j==y))
+					continue;
+				if (cells[i+width*j])
+					liveNeighbors++;
+			}
+		}
+		return liveNeighbors;
+	}
+
+	// Given a checkbox and its x and y coordinates, updates checked status
+	// of checkbox depending on neighbors.
+	function updateBox(box, x, y) {
+		var liveNeighbors = countLiveNeighbors(x, y);
+		var alive = cells[x+width*y];
+		if (alive) {
+			if (liveNeighbors < 2 || liveNeighbors > 3)
+				box.checked = false;
+		} else {
+			if (liveNeighbors == 3) {
+				box.checked = true;
+			}
+		}
+	}
+
+	// Advances to next generation when "Next Generation" button is clicked.
+	nextGenButton.addEventListener("click", function(event) {
+		var checkboxes = grid.querySelectorAll("input");
+		for (var i = 0; i < height; i++) {
+			for (var j = 0; j < width; j++) {
+				updateBox(checkboxes[j+i*width], j, i);
+			}
+		}
+		for (var i = 0; i < height; i++) {
+			for (var j = 0; j < width; j++) {
+				var box = checkboxes[j+i*width];
+				if (cells[j+i*width] != box.checked)
+					cells[j+i*width] = !cells[j+i*width];
+			}
+		}
+	});
+
+</script>

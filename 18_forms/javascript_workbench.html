@@ -1,0 +1,30 @@
+<textarea id="code">return "hi";</textarea>
+<button id="button" onclick="runCode()">Run</button>
+<pre id="output"></pre>
+
+<script>
+  // An interface that allows people to type and run pieces of
+  // JavaScript code.
+  // Button next to textarea field, when pressed, calls the
+  // script in the textarea. The reteurn value, or any error raised,
+  // is displayed after the text field.
+
+  var code = document.querySelector("#code");
+  var output = document.querySelector("#output");
+  var text = code.value;
+
+  code.addEventListener("change", function() {
+  	text = code.value;
+  });
+
+  function runCode() {
+  	console.log(text);
+  	var script = new Function('', text);
+  	try {
+  		output.textContent = String(script());
+  	} catch(e) {
+  		output.textContent = e;
+  	}
+  }
+
+</script>
