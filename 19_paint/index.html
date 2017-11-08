@@ -1,6 +1,68 @@
 <!doctype html>
 <script src="code/chapter/19_paint.js"></script>
 
+<script>
+	// Fills a rectangle with the current color. The rectangle should span
+	// from point where the user pressed the mouse button to the point
+	// where they released it.
+  tools.Rectangle = function(event, cx) {
+    var canvasPos = relativePos(event, cx.canvas);
+    var pagePos = {x: event.pageX, y: event.pageY};
+
+    var rectDiv = document.createElement("div");
+    rectDiv.style.position = "absolute";
+    rectDiv.style.background = cx.fillStyle;
+    document.body.appendChild(rectDiv);
+
+    trackDrag(function(event) {
+    	var rect = createRectangle(pagePos, 
+    														 {x: event.pageX, y: event.pageY});
+    	rectDiv.style.left = rect.left + "px";
+    	rectDiv.style.top = rect.top + "px";
+    	rectDiv.style.width = rect.width + "px";
+    	rectDiv.style.height = rect.height + "px";
+    }, function(event) {
+    	var rect = createRectangle(canvasPos, relativePos(event, cx.canvas));
+    	cx.fillRect(rect.left, rect.top, rect.width, rect.height);
+    	document.body.removeChild(rectDiv);
+    });
+  };
+
+  function createRectangle(a, b) {
+  	return {left: Math.min(a.x, b.x),
+            top: Math.min(a.y, b.y),
+            width: Math.abs(a.x - b.x),
+            height: Math.abs(a.y - b.y)};
+  }
+
+  // Allows user to click the picture and selects the color under the
+  // mouse pointer.
+  tools["Pick color"] = function(event, cx) {
+    var pos = relativePos(event, cx.canvas);
+    try {
+    	var pixel = pixelAt(cx, pos.x, pos.y);
+    } catch(e) {
+    	if (e instanceof SecurityError) {
+    		alert("Cannot access pixel data");
+    		return;
+    	} else {
+    		throw e;
+    	}
+    }
+    var r = pixel[0];
+    var g = pixel[1];
+    var b = pixel[2];
+    var color = "rgb("+r+", "+g+", "+b+")";
+    cx.fillStyle = color;
+    cx.strokeStyle = color;
+  };
+
+  function pixelAt(cx, x, y) {
+  	var data = cx.getImageData(x, y, 1, 1);
+  	return data.data;
+  }
+</script>
+
 <link rel="stylesheet" href="css/paint.css">
 
 <body>
